@@ -26,11 +26,11 @@ Each button needs:
 - One side to **GND**
 - The other side to a **GPIO pin** with an internal pull-down resistor enabled in code
 
-| Button # | GPIO Pin | Pi Pin # |
-|----------|----------|----------|
-| 1       | GPIO 27  | Pin 13   |
-| 2        | GPIO 22  | Pin 15   |
-| 3        | GPIO 10  | Pin 19   |
+| Button # | GPIO Pin | 
+|----------|----------|
+| 1       | GPIO 27  |
+| 2        | GPIO 7  |
+| 3        | GPIO 4
 
 **Wiring Steps:**
 1. Place button across the breadboard trench (straddling the gap).
