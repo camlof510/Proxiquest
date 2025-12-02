@@ -1,0 +1,56 @@
+ Wiring Setup Guide
+ 🔌 1. Power Rails
+Connect 3.3V (Pin 1)** on the Pi to the **+ rail** on the breadboard.
+Connect GND (Pin 6)** on the Pi to the **– rail** on the breadboard.
+
+ 2. LEDs (x4)
+Each LED needs:
+- One **220Ω resistor** on the cathode (short leg) to GND
+- Anode (long leg) to a GPIO pin
+
+| LED Color | GPIO Pin | Pi Pin # |
+|-----------|----------|----------|
+| Red       | GPIO 5   | Pin 29   |
+| Green     | GPIO 6   | Pin 31   |
+| Blue      | GPIO 13  | Pin 33   |
+| Yellow    | GPIO 19  | Pin 35   |
+
+**Wiring Steps:**
+1. Insert LED into breadboard.
+2. Connect **short leg** to GND rail through a 220Ω resistor.
+3. Connect **long leg** to the assigned GPIO pin using a jumper wire.
+
+---
+
+### 🔘 3. Push Buttons (x4)
+Each button needs:
+- One side to **GND**
+- The other side to a **GPIO pin** with an internal pull-down resistor enabled in code
+
+| Button # | GPIO Pin | Pi Pin # |
+|----------|----------|----------|
+| 1        | GPIO 17  | Pin 11   |
+| 2        | GPIO 27  | Pin 13   |
+| 3        | GPIO 22  | Pin 15   |
+| 4        | GPIO 10  | Pin 19   |
+
+**Wiring Steps:**
+1. Place button across the breadboard trench (straddling the gap).
+2. Connect one leg to GND rail.
+3. Connect the opposite leg to the assigned GPIO pin.
+
+---
+
+### 📏 4. HC-SR04 Distance Sensor
+| Sensor Pin | Connect To | Pi Pin # |
+|------------|------------|----------|
+| VCC        | 5V         | Pin 2    |
+| GND        | GND        | Pin 6    |
+| TRIG       | GPIO 23    | Pin 16   |
+| ECHO       | GPIO 24    | Pin 18   |
+
+**Wiring Steps:**
+1. Connect VCC to 5V power.
+2. Connect GND to ground.
+3. Connect TRIG to GPIO 23.
+4. Connect ECHO to GPIO 24.
