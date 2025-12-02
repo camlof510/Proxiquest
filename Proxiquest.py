@@ -4,94 +4,139 @@ import RPi.GPIO as GPIO
 import time
 import random
 
-# --- SETUP FOR ULTRASONIC SENSOR (HC-SR04) ---
-TRIG = 23  # GPIO pin for trigger
-ECHO = 24  # GPIO pin for echo
+# -------------------------------------------------------
+#   ULTRASONIC SENSOR (HC-SR04) — GPIO PINS
+# -------------------------------------------------------
+TRIG = 23
+ECHO = 24
 
-GPIO.setmode(GPIO.BCM)  # Use Broadcom pin numbering
+GPIO.setmode(GPIO.BCM)
 GPIO.setup(TRIG, GPIO.OUT)
 GPIO.setup(ECHO, GPIO.IN)
 
-# --- SETUP FOR LEDs ---
-# Connect LEDs to GPIO pins 5, 6, 13, 19
+# -------------------------------------------------------
+#   LEDs — CONNECTED TO GPIO PINS 2, 26, 13, 11
+# -------------------------------------------------------
 leds = [LED(2), LED(26), LED(13), LED(11)]
 
-# --- SETUP FOR BUTTONS ---
-# Connect buttons to GPIO pins 17, 27, 22, 10
+# -------------------------------------------------------
+#   BUTTONS — CONNECTED TO GPIO PINS 9, 4, 7, 27
+#   (Buttons wired to GND, using internal pull-ups)
+# -------------------------------------------------------
 buttons = [Button(9), Button(4), Button(7), Button(27)]
 
-# --- GAME STATE VARIABLES ---
-score = 0  # Player's score
-target_button = None  # Which button is correct this round
-target_range = (10, 30)  # Acceptable distance range in cm
+# -------------------------------------------------------
+#   GAME STATE
+# -------------------------------------------------------
+score = 0
+target_button = None
+target_range = (10, 30)
 
-# --- FUNCTION: Measure distance using HC-SR04 ---
+# -------------------------------------------------------
+#   ULTRASONIC MEASUREMENT (NON-BLOCKING, SAFE)
+# -------------------------------------------------------
 def get_distance():
     GPIO.output(TRIG, False)
-    time.sleep(0.05)  # Let sensor settle
+    time.sleep(0.002)
 
-    # Send 10µs pulse to trigger
+    # Trigger pulse
     GPIO.output(TRIG, True)
     time.sleep(0.00001)
     GPIO.output(TRIG, False)
 
-    # Wait for echo to start
+    # Wait for echo start with timeout
+    start_timeout = time.time() + 0.02
     while GPIO.input(ECHO) == 0:
         pulse_start = time.time()
+        if time.time() > start_timeout:
+            return 999  # No echo
 
-    # Wait for echo to end
+    # Wait for echo end with timeout
+    end_timeout = time.time() + 0.02
     while GPIO.input(ECHO) == 1:
         pulse_end = time.time()
+        if time.time() > end_timeout:
+            return 999
 
-    # Calculate distance in cm
+    # Calculate distance
     pulse_duration = pulse_end - pulse_start
     distance = pulse_duration * 17150
     return round(distance, 2)
 
-# --- FUNCTION: Start a new round with random target ---
+# -------------------------------------------------------
+#   START A NEW ROUND
+# -------------------------------------------------------
 def new_round():
     global target_button, target_range
-    target_button = random.randint(0, 3)  # Pick a button index 0–3
-    # Pick a random range between 10–20 and 25–40 cm
-    target_range = (random.randint(10, 20), random.randint(25, 40))
-    print(f"\n🎯 New Round: Press Button {target_button+1} and stay within {target_range[0]}–{target_range[1]} cm")
 
-# --- FUNCTION: Handle button press ---
+    target_button = random.randint(0, 3)
+    target_range = (
+        random.randint(10, 20),
+        random.randint(25, 40)
+    )
+
+    print("\n-------------------------------------")
+    print(f"🎯 New Round:")
+    print(f"➡ Press Button {target_button+1}")
+    print(f"➡ Stay within {target_range[0]}–{target_range[1]} cm")
+    print("-------------------------------------")
+
+# -------------------------------------------------------
+#   HANDLE BUTTON PRESS
+# -------------------------------------------------------
 def check_input(index):
     global score
+
     dist = get_distance()
-    print(f"Button {index+1} pressed | Distance: {dist} cm")
+    print(f"\nButton {index+1} pressed | Distance: {dist} cm")
+
+    if dist == 999:
+        print("⚠️ Distance not detected, ignoring...")
+        return
 
     # Scoring logic
-    if index == target_button and target_range[0] <= dist <= target_range[1]:
-        print("✅ Correct input!")
+    correct_button = index == target_button
+    correct_distance = target_range[0] <= dist <= target_range[1]
+
+    if correct_button and correct_distance:
+        print("✅ Correct button AND distance!")
         score += 15
-    elif index == target_button:
+    elif correct_button:
         print("⚠️ Correct button, wrong distance.")
         score += 5
-    elif target_range[0] <= dist <= target_range[1]:
+    elif correct_distance:
         print("⚠️ Correct distance, wrong button.")
         score += 5
     else:
-        print("❌ Wrong input.")
+        print("❌ Wrong button AND wrong distance.")
         score -= 5
 
     print(f"🏆 Score: {score}")
-    new_round()  # Start next round
+    new_round()
 
-# --- ASSIGN BUTTON HANDLERS ---
+# -------------------------------------------------------
+#   ATTACH BUTTON EVENTS
+# -------------------------------------------------------
 for i, button in enumerate(buttons):
     button.when_pressed = lambda i=i: check_input(i)
 
-# --- START GAME ---
+# -------------------------------------------------------
+#   START GAME
+# -------------------------------------------------------
 print("🎮 Starting ProxiQuest!")
 new_round()
 
-# --- MAIN LOOP ---
 try:
     while True:
-        time.sleep(0.1)  # Keep the program alive
+        time.sleep(0.1)
 
 except KeyboardInterrupt:
-    GPIO.cleanup()  # Clean up GPIO on Ctrl+C
+    GPIO.cleanup()
     print("\nGame Over. Final Score:", score)
+
+        
+   
+        
+
+
+        
