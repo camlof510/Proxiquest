@@ -14,11 +14,11 @@ GPIO.setup(ECHO, GPIO.IN)
 
 # --- SETUP FOR LEDs ---
 # Connect LEDs to GPIO pins 5, 6, 13, 19
-leds = [LED(5), LED(6), LED(13), LED(19)]
+leds = [LED(2), LED(26), LED(13), LED(11)]
 
 # --- SETUP FOR BUTTONS ---
 # Connect buttons to GPIO pins 17, 27, 22, 10
-buttons = [Button(17), Button(27), Button(22), Button(10)]
+buttons = [Button(9), Button(4), Button(7), Button(27)]
 
 # --- GAME STATE VARIABLES ---
 score = 0  # Player's score
