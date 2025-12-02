@@ -1,0 +1,17 @@
+ProxiQuest is an interactive Raspberry Pi-powered game that challenges players to combine quick thinking, precise button presses, and physical movement. Using LEDs, push buttons, and an ultrasonic distance sensor, players must respond to randomized prompts by pressing the correct button while positioning themselves within a specific distance range.
+ Objective
+Score as many points as possible by:
+- Pressing the correct button when prompted
+- Standing within the target distance range (e.g., 10–30 cm)
+🏆 Scoring
+- Correct button + correct distance: +15 points
+- Correct button only: +5 points
+- Correct distance only: +5 points
+-  Wrong button + wrong distance: -5 points
+🛠️ Hardware Used
+- Raspberry Pi (any model with GPIO)
+- 4 Push Buttons
+- 4 LEDs + resistors
+- HC-SR04 Ultrasonic Distance Sensor
+- Breadboard + Jumper Wires
+
