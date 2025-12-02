@@ -11,7 +11,7 @@ Score as many points as possible by:
 🛠️ Hardware Used
 - Raspberry Pi (any model with GPIO)
 - 3 Push Buttons
-- 4 LEDs + resistors
+- 3 LEDs + resistors
 - HC-SR04 Ultrasonic Distance Sensor
 - Breadboard + Jumper Wires
 
