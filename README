@@ -8,11 +8,11 @@ Each LED needs:
 - One **220Ω resistor** on the cathode (short leg) to GND
 - Anode (long leg) to a GPIO pin
 
-| LED Color | GPIO Pin | Pi Pin # |
-|-----------|----------|----------|
-| Red       | GPIO 5   | Pin 29   |
-| Green     | GPIO 6   | Pin 31   |
-| Blue      | GPIO 13  | Pin 33   |
+| LED Color | GPIO Pin 
+|-----------|----------|
+| Red       | GPIO 2   | Pin 29
+| Green     | GPIO 26   | Pin 31
+| Blue      | GPIO 13  | Pin 33
 
 **Wiring Steps:**
 1. Insert LED into breadboard.
