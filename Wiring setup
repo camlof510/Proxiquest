@@ -52,3 +52,8 @@ Each button needs:
 2. Connect GND to ground.
 3. Connect TRIG to GPIO 23.
 4. Connect ECHO to GPIO 24.
+Software steps
+1. download Proxiquest3.py
+2. chmod u+x to proxiquest3.py
+3. run python3 proxiquest3.py
+4. enjoy
